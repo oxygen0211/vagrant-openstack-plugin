@@ -104,6 +104,11 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :proxy
 
+      # The disks to create as OpenStack volumes.
+      #
+      # @return [Array]
+      attr_accessor :disks
+
       # Value for SSL_VERIFY_PEER, defaults to true.  Set to false for self
       # signed ssl certificate
       attr_accessor :ssl_verify_peer
@@ -139,6 +144,7 @@ module VagrantPlugins
         @region = UNSET_VALUE
         @proxy = UNSET_VALUE
         @ssl_verify_peer = UNSET_VALUE
+        @disks = UNSET_VALUE
         @orchestration_stack_name = UNSET_VALUE
         @orchestration_stack_destroy = UNSET_VALUE
         @orchestration_cfn_template = UNSET_VALUE
@@ -175,6 +181,8 @@ module VagrantPlugins
         @floating_ip = nil if @floating_ip == UNSET_VALUE
         @floating_ip = nil if @floating_ip_pool == UNSET_VALUE
 
+        @disks = nil if @disks == UNSET_VALUE
+
         @region = nil if @region == UNSET_VALUE
         @proxy = nil if @proxy == UNSET_VALUE
         @ssl_verify_peer = nil if @ssl_verify_peer == UNSET_VALUE
@@ -192,6 +200,14 @@ module VagrantPlugins
 
         errors << I18n.t("vagrant_openstack.config.api_key_required") if !@api_key
         errors << I18n.t("vagrant_openstack.config.username_required") if !@username
+
+        if @disks and @disks.any?{|a| not a.respond_to?("include?")}
+          errors << I18n.t("vagrant_openstack.config.disks.specification_required")
+        elsif @disks
+          errors << I18n.t("vagrant_openstack.config.disks.name_required") if @disks.any?{|a| not a.include?("name")}
+          errors << I18n.t("vagrant_openstack.config.disks.description_required") if @disks.any?{|a| not a.include?("description")}
+          errors << I18n.t("vagrant_openstack.config.disks.size_required") if @disks.any?{|a| not a.include?("size")}
+        end
 
         { "OpenStack Provider" => errors }
       end

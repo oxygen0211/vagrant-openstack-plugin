@@ -23,6 +23,7 @@ describe VagrantPlugins::OpenStack::Config do
     its(:scheduler_hints) { should be_nil }
     its(:tenant) { should be_nil }
     its(:proxy) { should be_nil }
+    its(:disks) { should be_nil }
     its(:ssl_verify_peer) { should be_nil }
   end
 
@@ -46,6 +47,11 @@ describe VagrantPlugins::OpenStack::Config do
         subject.finalize!
         subject.send(attribute).should == "foo"
       end
+    end
+    it "should not default disks if overridden" do
+      subject.send("disks=".to_sym, {"name" => "foo", "size" => 10, "description" => "bar"})
+      subject.finalize!
+      subject.send("disks").should == {"name" => "foo", "size" => 10, "description" => "bar"}
     end
   end
 
@@ -74,6 +80,14 @@ describe VagrantPlugins::OpenStack::Config do
 
     context "the username" do
       it "should error if not given"
+    end
+
+    context "the disks" do
+      it "should not error if not given"
+      it "should error if non-array given"
+      it "should error if non-hash array element given"
+      it "should error if array element hash does not contain all three name, description or size keys"
+      it "should not error if array element hash does contain all three name, description and size keys"
     end
   end
 end
