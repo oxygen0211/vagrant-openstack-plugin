@@ -46,7 +46,7 @@ module VagrantPlugins
           env[:openstack_compute] = Fog::Compute.new(
             env[:fog_openstack_params])
 
-          if config.networks && !config.networks.empty?
+          if config.network || (config.networks && !config.networks.empty?)
             env[:openstack_network] = Fog::Network.new({
               :provider => :openstack,
               :connection_options => connection_options,
