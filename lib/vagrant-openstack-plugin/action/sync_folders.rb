@@ -1,4 +1,4 @@
-re "log4r"
+require "log4r"
 
 require "vagrant/util/subprocess"
 require "vagrant/util/which"
