@@ -35,6 +35,10 @@ module VagrantPlugins
         error_key(:floating_ip_not_found)
       end
 
+      class FloatingIPNotAllocated < VagrantOpenStackError
+        error_key(:floating_ip_not_allocated)
+      end
+
       class OrchestrationTemplateError < VagrantOpenStackError
         error_key(:orchestration_template_error)
       end

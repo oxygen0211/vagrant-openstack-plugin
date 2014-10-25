@@ -113,15 +113,26 @@ module VagrantPlugins
               server.wait_for(5) { ready? }
               # Once the server is up and running assign a floating IP if we have one
               floating_ip = config.floating_ip
-              # try to automatically allocate a floating IP
+              # try to automatically associate a floating IP
               if floating_ip && floating_ip.to_sym == :auto
-                addresses = env[:openstack_compute].addresses
-                puts addresses
-                free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
-                if free_floating.nil?
-                  raise Errors::FloatingIPNotFound
+                if config.floating_ip_pool
+                  env[:ui].info("Allocating floating IP address from pool: #{config.floating_ip_pool}")
+                  address = env[:openstack_compute].allocate_address(config.floating_ip_pool).body["floating_ip"]
+                  if address["ip"].nil?
+                    raise Errors::FloatingIPNotAllocated
+                  else
+                    floating_ip = address["ip"]
+                  end
+                else
+                  addresses = env[:openstack_compute].addresses
+                  puts addresses
+                  free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
+                  if free_floating.nil?
+                    raise Errors::FloatingIPNotFound
+                  else
+                    floating_ip = addresses[free_floating].ip
+                  end
                 end
-                floating_ip = addresses[free_floating].ip
               end
                 
               if floating_ip
