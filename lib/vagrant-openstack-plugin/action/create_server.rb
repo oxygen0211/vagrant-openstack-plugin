@@ -58,9 +58,24 @@ module VagrantPlugins
           unless config.networks.empty?
             env[:ui].info(I18n.t("vagrant_openstack.finding_network"))
             options[:nics] = Array.new
-            config.networks.each do |net|
-              network = find_matching(env[:openstack_network].networks, net)
-              options[:nics] << {"net_id" => network.id} if network
+            config.networks.each_with_index do |os_network_name, i|
+
+              # Use the configured OpenStack network, if it exists.
+              os_network = find_matching(env[:openstack_network].networks, os_network_name)
+              if os_network
+                current = { :net_id => os_network.id }
+
+                # Match the OpenStack network to a corresponding
+                # config.vm.network option.  If there is one, use that for its
+                # IP address.
+                config_network = env[:machine].config.vm.networks[i]
+                if config_network
+                  ip_address = config_network[1][:ip]
+                  current[:v4_fixed_ip] = ip_address if ip_address
+                end
+
+                options[:nics] << current
+              end
             end
             env[:ui].info("options[:nics]: #{options[:nics]}")
           end
