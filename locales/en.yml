@@ -93,6 +93,8 @@ en:
       floating_ip_not_found: |-
         A floating IP could not be allocated, as no available floating 
         IPs were found in OpenStack
+      floating_ip_not_allocated: |-
+        A floating IP could not be allocated from the pool.
       orchestration_template_error: |-
         There was an error while reading orchestration template.
         Error: %{err}

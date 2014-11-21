@@ -58,9 +58,24 @@ module VagrantPlugins
           unless config.networks.empty?
             env[:ui].info(I18n.t("vagrant_openstack.finding_network"))
             options[:nics] = Array.new
-            config.networks.each do |net|
-              network = find_matching(env[:openstack_network].networks, net)
-              options[:nics] << {"net_id" => network.id} if network
+            config.networks.each_with_index do |os_network_name, i|
+
+              # Use the configured OpenStack network, if it exists.
+              os_network = find_matching(env[:openstack_network].networks, os_network_name)
+              if os_network
+                current = { :net_id => os_network.id }
+
+                # Match the OpenStack network to a corresponding
+                # config.vm.network option.  If there is one, use that for its
+                # IP address.
+                config_network = env[:machine].config.vm.networks[i]
+                if config_network
+                  ip_address = config_network[1][:ip]
+                  current[:v4_fixed_ip] = ip_address if ip_address
+                end
+
+                options[:nics] << current
+              end
             end
             env[:ui].info("options[:nics]: #{options[:nics]}")
           end
@@ -98,15 +113,26 @@ module VagrantPlugins
               server.wait_for(5) { ready? }
               # Once the server is up and running assign a floating IP if we have one
               floating_ip = config.floating_ip
-              # try to automatically allocate a floating IP
+              # try to automatically associate a floating IP
               if floating_ip && floating_ip.to_sym == :auto
-                addresses = env[:openstack_compute].addresses
-                puts addresses
-                free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
-                if free_floating.nil?
-                  raise Errors::FloatingIPNotFound
+                if config.floating_ip_pool
+                  env[:ui].info("Allocating floating IP address from pool: #{config.floating_ip_pool}")
+                  address = env[:openstack_compute].allocate_address(config.floating_ip_pool).body["floating_ip"]
+                  if address["ip"].nil?
+                    raise Errors::FloatingIPNotAllocated
+                  else
+                    floating_ip = address["ip"]
+                  end
+                else
+                  addresses = env[:openstack_compute].addresses
+                  puts addresses
+                  free_floating = addresses.find_index {|a| a.fixed_ip.nil?}
+                  if free_floating.nil?
+                    raise Errors::FloatingIPNotFound
+                  else
+                    floating_ip = addresses[free_floating].ip
+                  end
                 end
-                floating_ip = addresses[free_floating].ip
               end
                 
               if floating_ip

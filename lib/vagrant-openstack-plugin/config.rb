@@ -89,6 +89,11 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :floating_ip
 
+      # The floating IP pool from which IP addresses can be allocated
+      #
+      # @return [String]
+      attr_accessor :floating_ip_pool
+
       # The region to specify when the OpenStack cloud has multiple regions
       #
       # @return [String]
@@ -130,6 +135,7 @@ module VagrantPlugins
         @tenant = UNSET_VALUE
         @user_data = UNSET_VALUE
         @floating_ip = UNSET_VALUE
+        @floating_ip_pool = UNSET_VALUE
         @region = UNSET_VALUE
         @proxy = UNSET_VALUE
         @ssl_verify_peer = UNSET_VALUE
@@ -167,6 +173,7 @@ module VagrantPlugins
         @tenant = nil if @tenant == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
         @floating_ip = nil if @floating_ip == UNSET_VALUE
+        @floating_ip = nil if @floating_ip_pool == UNSET_VALUE
 
         @region = nil if @region == UNSET_VALUE
         @proxy = nil if @proxy == UNSET_VALUE

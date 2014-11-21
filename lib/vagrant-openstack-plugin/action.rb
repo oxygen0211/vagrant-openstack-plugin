@@ -79,7 +79,6 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use Provision
           b.use SyncFolders
-          b.use WarnNetworks
           b.use SetHostname
         end
       end
@@ -95,6 +94,7 @@ module VagrantPlugins
               b1.use ConnectOpenStack
               b1.use CreateOrchestrationStack
               b1.use CreateServer
+              b1.use CreateNetworkInterfaces
             else
               b1.use action_resume
             end
@@ -230,6 +230,7 @@ module VagrantPlugins
       action_root = Pathname.new(File.expand_path("../action", __FILE__))
       autoload :ConnectOpenStack, action_root.join("connect_openstack")
       autoload :CreateServer, action_root.join("create_server")
+      autoload :CreateNetworkInterfaces, action_root.join("create_network_interfaces")
       autoload :DeleteServer, action_root.join("delete_server")
       autoload :HardRebootServer, action_root.join("hard_reboot_server")
       autoload :IsCreated, action_root.join("is_created")
