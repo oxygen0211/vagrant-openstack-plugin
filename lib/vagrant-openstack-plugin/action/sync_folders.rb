@@ -85,7 +85,7 @@ module VagrantPlugins
 
         def ssh_key_options(ssh_info)
           # Ensure that `private_key_path` is an Array (for Vagrant < 1.4)
-          Array(ssh_info[:private_key_path]).map { |path| "-i '#{path}'" }.join
+          Array(ssh_info[:private_key_path]).map { |path| "-i '#{path}' " }
         end
       end
     end
