@@ -1,6 +1,7 @@
 require "log4r"
 
 require "vagrant/util/subprocess"
+require "vagrant/util/which"
 
 module VagrantPlugins
   module OpenStack
@@ -25,7 +26,17 @@ module VagrantPlugins
               next
             end
 
+            unless Vagrant::Util::Which.which('rsync')
+              @logger.info "please install rsync first"
+              break
+            end
+
             hostpath  = File.expand_path(data[:hostpath], env[:root_path])
+            #rsync interprets paths with colons as remote locations.
+            # "cygdrive" path for cygwin on windows.
+            if Vagrant::Util::Platform.windows?
+              hostpath = Vagrant::Util::Subprocess.execute("cygpath", "-u", "-a", hostpath).stdout.chomp
+            end
             guestpath = data[:guestpath]
 
             # Make sure there is a trailing slash on the host path to
