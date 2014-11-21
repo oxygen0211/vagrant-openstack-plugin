@@ -1,5 +1,19 @@
 # Changelog for vagrant-openstack-plugin
 
+## 0.9.0
+
+- Merge pull request #80 from hawknewton/network_fix [view commit](http://github.com///commit/542e7a2e077d624df9cb56a53c24cf3450e11c71)
+- Merge pull request #86 from ipoddar-ibm/master [view commit](http://github.com///commit/11fccb73264aa852df88825936026a9da4771580)
+- Merge pull request #88 from chino/fix-rsync-identify-file-options [view commit](http://github.com///commit/9319af5216c8c65ba144154ddfba2c1d767c567d)
+- Merge pull request #87 from arbrandes/master [view commit](http://github.com///commit/49839de94e1865eb88a25d5876f1698e2069a0be)
+- sync_folders: should have space between ssh-i options [view commit](http://github.com///commit/07325bfe4c782043d7ecec32a64fa516344cebf8)
+- Allocate IPs automatically [view commit](http://github.com///commit/84c311544d00286fc2c910f9147892e5ae6c0a5b)
+- Adds support for static IPs and interface config [view commit](http://github.com///commit/a5fdb22e23687c9bcd540b37b65b8d478d3a5d94)
+- remove extra line [view commit](http://github.com///commit/010e347acf403d6426fffac5ec01cb999dd9545f)
+- fix typo [view commit](http://github.com///commit/08dda991121f7e2e2f5bb8f32e03432f69aec226)
+- support cygwin [view commit](http://github.com///commit/62c2184906e444c22933d34b8b9054fca56df54f)
+- Connect to openstack network resource when needed [view commit](http://github.com///commit/8515a9305f354963d8687077e203a35c902035ce)
+
 ## 0.8.0
 
 - Merge pull request #67 from pradels/master [view commit](http://github.com///commit/15f5b5531622376df952bccc0512a6de50d7a92f)
