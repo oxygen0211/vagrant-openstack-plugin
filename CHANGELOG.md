@@ -1,5 +1,12 @@
 # Changelog for vagrant-openstack-plugin
 
+## 0.9.1
+
+- Merge pull request #91 from Chealion/master [view commit](http://github.com///commit/6285cae325afa378e90f06635a2cc39b1428a6dd)
+- Fixes #90 that hostname is set to key path [view commit](http://github.com///commit/5feb04c7bf46cee1ef4d38e25d74710ea9d0981b)
+- Merge pull request #89 from reachlocal/fix_handleurl_deprecation_for_older_versions [view commit](http://github.com///commit/6ba9ee7d18d63a3d6f254c80e106bc440003fae6)
+- Added a check for the vagrant version to keep HandleUrl for older versions of vagrant [view commit](http://github.com///commit/07871ed10ea9cca9c51e97fb8bb3e11c33d41a33)
+
 ## 0.9.0
 
 - Merge pull request #80 from hawknewton/network_fix [view commit](http://github.com///commit/542e7a2e077d624df9cb56a53c24cf3450e11c71)
