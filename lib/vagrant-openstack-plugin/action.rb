@@ -86,7 +86,11 @@ module VagrantPlugins
       # This action is called when `vagrant up` is executed.
       def self.action_up
         Vagrant::Action::Builder.new.tap do |b|
-          b.use HandleBox
+          if Vagrant::VERSION < '1.6.0'
+            b.use HandleBoxUrl
+          else
+            b.use HandleBox
+          end
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b1|
             unless env[:result]
