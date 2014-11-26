@@ -15,6 +15,8 @@ module VagrantPlugins
           id = machine.id || env[:openstack_compute].servers.all( :name => machine.name ).first.id
 
           if id
+            volumes = env[:openstack_compute].servers.get(id).volume_attachments
+
             env[:ui].info(I18n.t("vagrant_openstack.deleting_server"))
 
             # TODO: Validate the fact that we get a server back from the API.
@@ -26,6 +28,19 @@ module VagrantPlugins
                 address = env[:openstack_compute].list_all_addresses.body["floating_ips"].find{|i| i["ip"] == ip}
                 if address
                   env[:openstack_compute].release_address(address["id"])
+                end
+              end
+
+              env[:ui].info(I18n.t("vagrant_openstack.deleting_volumes"))
+              volumes.each do |compute_volume|
+                volume = env[:openstack_volume].volumes.get(compute_volume["id"])
+                if volume
+                  env[:ui].info("Deleting volume: #{volume.display_name}")
+                  begin
+                    volume.destroy
+                  rescue Excon::Errors::Error => e
+                    raise Errors::VolumeBadState, :volume => volume.display_name, :state => e.message
+                  end
                 end
               end
             end

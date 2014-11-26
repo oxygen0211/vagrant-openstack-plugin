@@ -6,8 +6,12 @@ en:
       The server is already paused.
     already_suspended: |-
       The server is already suspended.
+    creating_disks: |-
+      Creating disks with the folowing settings...
     deleting_server: |-
       Deleting server...
+    deleting_volumes: |-
+      Deleting volumes...
     finding_flavor: |-
       Finding flavor for server...
     finding_image: |-
@@ -62,8 +66,21 @@ en:
         A username is required.
       metadata_must_be_hash: |-
         Metadata must be a hash.
+      disks:
+        specification_required: |-
+          A disk specification is required for a disk configuration (array of hashes including name, description and size keys).
+        name_required: |-
+          A disk name is required for all disk specifications.
+        description_required: |-
+          A disk description is required for all disk specifications.
+        size_required: |-
+          A disk size is required for all disk specifications.
 
     errors:
+      volume_bad_state: |-
+        The OpenStack volume '%{volume}' requested is in an unexpected state:
+        '%{state}'
+        Please run `vagrant destroy` if you want to start over.
       create_bad_state: |-
         While creating the server, it transitioned to an unexpected
         state: '%{state}', instead of properly booting. Run `vagrant status`
@@ -100,6 +117,8 @@ en:
         Error: %{err}
       orchestration_no_template_file_error: |-
         Orchestration template file not found (%{fname}).
+      server_not_destroyed: |-
+        OpenStack server was not fully destroyed.
 
     states:
       short_active: |-

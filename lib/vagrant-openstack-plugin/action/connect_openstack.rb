@@ -58,6 +58,18 @@ module VagrantPlugins
             })
           end
 
+          if config.disks && !config.disks.empty?
+            env[:openstack_volume] = Fog::Volume.new({
+              :provider => :openstack,
+              :connection_options => connection_options,
+              :openstack_username => username,
+              :openstack_api_key => api_key,
+              :openstack_auth_url => endpoint,
+              :openstack_tenant => tenant,
+              :openstack_region => region
+            })
+          end
+
           @app.call(env)
         end
       end
