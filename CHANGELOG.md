@@ -1,5 +1,10 @@
 # Changelog for vagrant-openstack-plugin
 
+## 0.10.0
+
+- Merge pull request #84 from cbaenziger/volume_support [view commit](http://github.com///commit/fc613a49cb5b2fecf2255d3050d1bff68956735d)
+- Add support for creating OpenStack Volumes [view commit](http://github.com///commit/60ed3924957bb7eefa95e113336165d76da3a985)
+
 ## 0.9.1
 
 - Merge pull request #91 from Chealion/master [view commit](http://github.com///commit/6285cae325afa378e90f06635a2cc39b1428a6dd)
