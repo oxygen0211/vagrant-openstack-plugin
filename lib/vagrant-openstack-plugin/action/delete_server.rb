@@ -15,13 +15,14 @@ module VagrantPlugins
           id = machine.id || env[:openstack_compute].servers.all( :name => machine.name ).first.id
 
           if id
-            volumes = env[:openstack_compute].servers.get(id).volume_attachments
-
             env[:ui].info(I18n.t("vagrant_openstack.deleting_server"))
 
             # TODO: Validate the fact that we get a server back from the API.
             server = env[:openstack_compute].servers.get(id)
             if server
+              # get volumes before destroying server
+              volumes = server.volume_attachments
+
               ip = server.floating_ip_address
               server.destroy
               if machine.provider_config.floating_ip_pool
