@@ -12,7 +12,8 @@ module VagrantPlugins
 
         def call(env)
           machine = env[:machine]
-          id = machine.id || env[:openstack_compute].servers.all( :name => machine.name ).first.id
+          id = machine.id || (env[:openstack_compute].servers.all( :name => machine.name ).length == 1 and
+                              env[:openstack_compute].servers.all( :name => machine.name ).first.id)
 
           if id
             env[:ui].info(I18n.t("vagrant_openstack.deleting_server"))
