@@ -1,3 +1,6 @@
+require 'vagrant/util/retryable'
+require 'timeout'
+
 require "log4r"
 
 module VagrantPlugins
@@ -5,6 +8,8 @@ module VagrantPlugins
     module Action
       # This deletes the running server, if there is one.
       class DeleteServer
+        include Vagrant::Util::Retryable
+
         def initialize(app, env)
           @app    = app
           @logger = Log4r::Logger.new("vagrant_openstack::action::delete_server")
@@ -25,7 +30,28 @@ module VagrantPlugins
               volumes = server.volume_attachments
 
               ip = server.floating_ip_address
-              server.destroy
+
+              retryable(:on => Timeout::Error, :tries => 20) do
+                # If we're interrupted don't worry about waiting
+                next if env[:interrupted]
+
+                begin
+                  server.destroy if server
+                  status = Timeout::timeout(10) {
+                    while server.reload
+                      sleep(1)
+                    end
+                  }
+                rescue RuntimeError => e
+                  # If we don't have an error about a state transition, then
+                  # we just move on.
+                  raise if e.message !~ /should have transitioned/
+                  raise Errors::ServerNotDestroyed
+                rescue Fog::Compute::OpenStack::NotFound
+                  # If we don't have a server anymore we should be done here just continue on
+                end
+              end
+
               if machine.provider_config.floating_ip_pool
                 address = env[:openstack_compute].list_all_addresses.body["floating_ips"].find{|i| i["ip"] == ip}
                 if address
@@ -46,6 +72,8 @@ module VagrantPlugins
                 end
               end
             end
+          else
+            env[:ui].info(I18n.t("vagrant_openstack.not_created"))
           end
 
           @app.call(env)
