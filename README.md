@@ -77,7 +77,7 @@ Vagrant.configure("2") do |config|
     os.availability_zone  = "az0001"           # optional
     os.security_groups    = ['ssh', 'http']    # optional
     os.tenant             = "YOUR TENANT_NAME" # optional
-    os.floating_ip        = "33.33.33.33"      # optional (The floating IP to assign for this instance)
+    os.floating_ip        = "33.33.33.33"      # optional (The floating IP to assign for this instance, or set to :auto)
     os.floating_ip_pool   = "public"           # optional (The floating IP pool to allocate addresses from, if floating_ip = :auto)
 
     os.disks              = [                  # optional
@@ -228,6 +228,7 @@ Take snapshot of ***vmname*** with name ***snapshotname***
 - [nicobrevin](https://github.com/nicobrevin)
 - [ohnoimdead](https://github.com/ohnoimdead)
 - [cbaenziger](https://github.com/cbaenziger)
+- [chealion](https://github.com/chealion)
 
 ## Development
 
