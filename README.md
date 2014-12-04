@@ -185,10 +185,29 @@ end
 
 ## Networks
 
-Networking features in the form of `config.vm.network` are not
-supported with `vagrant-openstack-plugin`, currently. If any of these are
-specified, Vagrant will emit a warning, but will otherwise boot
-the OpenStack server.
+Static IP assignment is supported by doing the following:
+
+First, define one or more networks with `os.networks`:
+
+```ruby
+os.networks = ['network1', 'network2']
+```
+
+Next, configure those networks using `config.vm.network`:
+
+```ruby
+config.vm.network 'private_network', ip: '192.168.1.100'
+config.vm.network 'private_network', ip: '192.168.2.100'
+```
+
+Note that the order must be the same as the order in `os.networks`.
+If you only want to configure the second NIC with a static IP, do
+the following:
+
+```ruby
+config.vm.network 'private_network', type: 'dhcp'
+config.vm.network 'private_network', ip: '192.168.2.100'
+```
 
 ## Synced Folders
 
