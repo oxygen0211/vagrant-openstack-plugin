@@ -1,5 +1,12 @@
 # Changelog for vagrant-openstack-plugin
 
+## 0.11.1
+
+- Merge pull request #99 from jtopjian/master [view commit](http://github.com///commit/1c2667532e408f239761882a367c11d948610f37)
+- Update README.md to add Static IP instructions [view commit](http://github.com///commit/9246d8b9389dd4e1108e0f3ab7c2652459d6d192)
+- Merge pull request #98 from Chealion/fixFloatingIP [view commit](http://github.com///commit/1d6635791286bf396ec1a852730116ec1c0bbba0)
+- Don't release a floating IP unless it was automatically assigned. [view commit](http://github.com///commit/c5f51082323b9defa5d101b0f5decbe68e15cfa3)
+
 ## 0.11.0
 
 - Merge pull request #97 from cbaenziger/issue_96_fix [view commit](http://github.com///commit/36295904ffb65d7461870a97e561c470fdedbbe5)
