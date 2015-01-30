@@ -12,77 +12,77 @@ describe VagrantPlugins::OpenStack::Config do
 
     describe '#api_key' do
       subject { super().api_key }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#endpoint' do
       subject { super().endpoint }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#flavor' do
       subject { super().flavor }
-      it { should eq(/m1.tiny/) }
+      it { is_expected.to eq(/m1.tiny/) }
     end
 
     describe '#image' do
       subject { super().image }
-      it { should eq(/cirros/) }
+      it { is_expected.to eq(/cirros/) }
     end
 
     describe '#server_name' do
       subject { super().server_name }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#username' do
       subject { super().username }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#keypair_name' do
       subject { super().keypair_name }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#ssh_username' do
       subject { super().ssh_username }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#network' do
       subject { super().network }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#security_groups' do
       subject { super().security_groups }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#scheduler_hints' do
       subject { super().scheduler_hints }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#tenant' do
       subject { super().tenant }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#proxy' do
       subject { super().proxy }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#disks' do
       subject { super().disks }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     describe '#ssl_verify_peer' do
       subject { super().ssl_verify_peer }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
   end
 
