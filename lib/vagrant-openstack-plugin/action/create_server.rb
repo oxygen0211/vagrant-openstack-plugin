@@ -167,7 +167,16 @@ module VagrantPlugins
                   # mount points are not expected to be meaningful
                   # add useful support if your cloud respects them
                   begin
-                    server.attach_volume(disk["volume_id"], "/dev/vd#{("a".."z").to_a[server.volume_attachments.length + 1]}")
+                    # Assume instance has only one disk
+                    nova_offset = 1
+                    # Increase counter in case we have swap or ephemeral disks.
+                    if flavor.swap != 0
+                        nova_offset += 1
+                    end
+                    if flavor.ephemeral != 0
+                        nova_offset += 1
+                    end
+                    server.attach_volume(disk["volume_id"], "/dev/vd#{("c".."z").to_a[server.volume_attachments.length + nova_offset]}")
                     server.wait_for{ volume_attachments.any?{|vol| vol["id"]==disk["volume_id"]} }
                   rescue Excon::Errors::Error => e
                     raise Errors::VolumeBadState, :volume => disk["name"], :state => e.message
