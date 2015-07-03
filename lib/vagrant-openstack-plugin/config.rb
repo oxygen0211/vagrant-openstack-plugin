@@ -78,6 +78,12 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :tenant
 
+      #User domain
+      attr_accessor :domain
+
+      #The Machine's project
+      attr_accessor :project
+
       # User data to be sent to the newly created OpenStack instance. Use this
       # e.g. to inject a script at boot time.
       #
@@ -138,6 +144,8 @@ module VagrantPlugins
         @security_groups = UNSET_VALUE
         @ssh_username = UNSET_VALUE
         @tenant = UNSET_VALUE
+        @domain = UNSET_VALUE
+        @project = UNSET_VALUE
         @user_data = UNSET_VALUE
         @floating_ip = UNSET_VALUE
         @floating_ip_pool = UNSET_VALUE
@@ -177,6 +185,8 @@ module VagrantPlugins
         @ssh_username = nil if @ssh_username == UNSET_VALUE
 
         @tenant = nil if @tenant == UNSET_VALUE
+        @domain = nil if @domain == UNSET_VALUE
+        @project = nil if @project == UNSET_VALUE
         @user_data = "" if @user_data == UNSET_VALUE
         @floating_ip = nil if @floating_ip == UNSET_VALUE
         @floating_ip = nil if @floating_ip_pool == UNSET_VALUE
