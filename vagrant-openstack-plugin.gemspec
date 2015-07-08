@@ -13,6 +13,8 @@ Gem::Specification.new do |gem|
   gem.homepage      = "http://www.vagrantup.com"
 
   gem.add_runtime_dependency "fog", ">= 1.16.0"
+  gem.add_runtime_dependency "net-ssh", "~> 2.9.1"
+  gem.add_runtime_dependency "net-sftp", "~> 2.1"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec", "~> 2.13.0"
