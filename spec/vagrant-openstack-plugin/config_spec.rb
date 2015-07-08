@@ -10,21 +10,80 @@ describe VagrantPlugins::OpenStack::Config do
       end
     end
 
-    its(:api_key)  { should be_nil }
-    its(:endpoint) { should be_nil }
-    its(:flavor)   { should eq(/m1.tiny/) }
-    its(:image)    { should eq(/cirros/) }
-    its(:server_name) { should be_nil }
-    its(:username) { should be_nil }
-    its(:keypair_name) { should be_nil }
-    its(:ssh_username) { should be_nil }
-    its(:network) { should be_nil }
-    its(:security_groups) { should be_nil }
-    its(:scheduler_hints) { should be_nil }
-    its(:tenant) { should be_nil }
-    its(:proxy) { should be_nil }
-    its(:disks) { should be_nil }
-    its(:ssl_verify_peer) { should be_nil }
+    describe '#api_key' do
+      subject { super().api_key }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#endpoint' do
+      subject { super().endpoint }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#flavor' do
+      subject { super().flavor }
+      it { is_expected.to eq(/m1.tiny/) }
+    end
+
+    describe '#image' do
+      subject { super().image }
+      it { is_expected.to eq(/cirros/) }
+    end
+
+    describe '#server_name' do
+      subject { super().server_name }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#username' do
+      subject { super().username }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#keypair_name' do
+      subject { super().keypair_name }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#ssh_username' do
+      subject { super().ssh_username }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#network' do
+      subject { super().network }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#security_groups' do
+      subject { super().security_groups }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#scheduler_hints' do
+      subject { super().scheduler_hints }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#tenant' do
+      subject { super().tenant }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#proxy' do
+      subject { super().proxy }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#disks' do
+      subject { super().disks }
+      it { is_expected.to be_nil }
+    end
+
+    describe '#ssl_verify_peer' do
+      subject { super().ssl_verify_peer }
+      it { is_expected.to be_nil }
+    end
   end
 
   describe "overriding defaults" do
@@ -45,13 +104,13 @@ describe VagrantPlugins::OpenStack::Config do
       it "should not default #{attribute} if overridden" do
         subject.send("#{attribute}=".to_sym, "foo")
         subject.finalize!
-        subject.send(attribute).should == "foo"
+        expect(subject.send(attribute)).to eq("foo")
       end
     end
     it "should not default disks if overridden" do
       subject.send("disks=".to_sym, {"name" => "foo", "size" => 10, "description" => "bar"})
       subject.finalize!
-      subject.send("disks").should == {"name" => "foo", "size" => 10, "description" => "bar"}
+      expect(subject.send("disks")).to eq({"name" => "foo", "size" => 10, "description" => "bar"})
     end
   end
 
